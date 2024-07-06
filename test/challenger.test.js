@@ -271,3 +271,78 @@ describe('Test suit /json_1', () => {
         expect(typeof response.body.preferencias.notificarPromocoes).toBe('boolean')
     })
 })
+
+describe.only('Make sure that each id of our projects, teams and tasks is unique within the entire JSON structure', () => {
+    it('project validations', async() => {
+        const response = 
+            await request(route)
+                .get('/json_5')
+
+        const body = response.body.empresa        
+        const sectorsList = body.setores
+
+        let hasDuplicatedIdProject = false
+        let hasDuplicatedIdTeam = false
+        let hasDuplicatedIdMember = false
+        let hasDuplicatedIdTask = false
+
+        let foundIdsProjects = []
+        let foundIdsTeams = []
+        let foundIdsMembers = []
+        let foundIdsTasks = []
+
+        for(let i = 0; i < sectorsList.length; i++){
+            const projectsList = sectorsList[i].projetos
+            
+            for(let j = 0; j < projectsList.length; j++){
+                const teamsList = projectsList[j].equipes
+                let id = projectsList[j].id
+
+                if (foundIdsProjects.includes(id)) {
+                    hasDuplicated = true;
+                } 
+
+                foundIdsProjects.push(id);
+
+                for(let x = 0; x < teamsList.length; x++){
+                    const membersList = teamsList[x].membros
+                    const tasksList = teamsList[x].tarefas
+
+                    let id = teamsList[x].id
+
+                    if (foundIdsTeams.includes(id)) {
+                        hasDuplicatedIdTeam = true;
+                    } 
+    
+                    foundIdsTeams.push(id);
+                    
+                    for(let y = 0; y < membersList.length; y++){
+                        let id = membersList[y].id
+    
+                        if (foundIdsMembers.includes(id)) {
+                            hasDuplicatedIdMember = true;
+                        } 
+        
+                        foundIdsMembers.push(id);                                
+                    }   
+
+                    for(let z = 0; z < tasksList.length; z++){
+                        let id = tasksList[z].id
+    
+                        if (foundIdsTasks.includes(id)) {
+                            hasDuplicatedIdTask = true;
+                        } 
+        
+                        foundIdsTasks.push(id);                                
+                    }  
+                    
+                }                
+            }
+        }
+        
+        expect(hasDuplicatedIdTeam).toBe(false)
+        expect(hasDuplicatedIdProject).toBe(false)
+        expect(hasDuplicatedIdMember).toBe(false)
+        expect(hasDuplicatedIdTask).toBe(false)
+    })
+})
