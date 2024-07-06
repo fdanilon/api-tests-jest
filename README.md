@@ -3,10 +3,8 @@
 API tests [API de JSONs para Treinamento de Validações de QA](https://api-desafio-qa.onrender.com/docs/)
 
 # Tests createad
-    - Challenger module
-        - /login
-        - /json_1
-        - /json_5
+- Install [Node.js](https://nodejs.org/en)
+- Clone the repo
 
 # How to execute?
 - Install [Node.js](https://nodejs.org/en)
