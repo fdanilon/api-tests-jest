@@ -1,6 +1,6 @@
 # API Tests with Jest
 
-API tests [API de JSONs para Treinamento de Validações de QA](https://api-desafio-qa.onrender.com/docs/)
+API tests from [API de JSONs para Treinamento de Validações de QA](https://api-desafio-qa.onrender.com/docs/)
 
 # Tests createad
 - Challenger module
