@@ -1,5 +1,13 @@
 # API Tests with Jest
 
+API tests from [JSON API for QA Validation Training](https://api-desafio-qa.onrender.com/docs/)
+
+# Tests createad
+- Challenger module
+    - /login
+    - /json_1
+    - /json_5
+
 # How to execute?
 - Install [Node.js](https://nodejs.org/en)
 - Clone the repo
