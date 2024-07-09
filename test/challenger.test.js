@@ -272,7 +272,7 @@ describe('Test suit /json_1', () => {
     })
 })
 
-describe.only('Make sure that each id of our projects, teams and tasks is unique within the entire JSON structure', () => {
+describe('Make sure that each id of our projects, teams and tasks is unique within the entire JSON structure', () => {
     it('project validations', async() => {
         const response = 
             await request(route)
@@ -344,5 +344,90 @@ describe.only('Make sure that each id of our projects, teams and tasks is unique
         expect(hasDuplicatedIdProject).toBe(false)
         expect(hasDuplicatedIdMember).toBe(false)
         expect(hasDuplicatedIdTask).toBe(false)
+    })
+
+
+
+})
+
+describe('Test suit /json_9', () => {
+    it('Total goals/fouls/cards by Brazil during entire World Cup', async() => {
+        const response = 
+            await request(route)
+                .get('/json_9')
+
+        const brazilGames = response.body.copaDoMundo.jogosDoBrasil
+        let brazilGoalsAllWC = 0
+        let brazilFoulsAllWC = 0
+        let brazilCardsAllWC = 0
+        
+        for(let i = 0; i < brazilGames.length; i++){
+            brazilGoalsAllWC += brazilGames[i].detalhes.gols.length
+            brazilFoulsAllWC += brazilGames[i].detalhes.faltas.length
+            brazilCardsAllWC += brazilGames[i].detalhes.cartoes.length
+        }
+
+        console.log(`Goals by Brazil: ${brazilGoalsAllWC} goals`)
+        console.log(`Fouls by Brazil: ${brazilFoulsAllWC} fouls`)
+        console.log(`Cards by Brazil: ${brazilCardsAllWC} cards`)
+    })
+
+    it.only('detail report World Cup Brazil', async() => {
+        /*
+            - Total de gols marcados pelo Brasil e pelos adversários.
+            - Nomes dos jogadores que marcaram gols para o Brasil e para os adversários, juntamente com os minutos em que os gols foram marcados. 
+            - Total de faltas cometidas pelo Brasil e pelos adversários. 
+            - Nomes dos jogadores que cometeram faltas para o Brasil e para os adversários, juntamente com os minutos em que as faltas ocorreram. 
+            - Total de cartões (amarelos e vermelhos) recebidos pelo Brasil e pelos adversários. 
+            - Nomes dos jogadores que receberam cartões para o Brasil e para os adversários, juntamente com os minutos em que os cartões foram mostrados. 
+            Desafio de Estatísticas: - Calcule a média de gols por jogo marcados pelo Brasil e pelos adversários. 
+        */
+
+        const response = 
+            await request(route)
+                .get('/json_9')
+
+        const brazilGames = response.body.copaDoMundo.jogosDoBrasil
+        let brazilGoalsAllWC = 0
+        let brazilOpponentGoalsAllWC = 0
+        let brazilFoulsAllWC = 0
+        let brazilCardsAllWC = 0
+        let brazilGoalScore = []
+        let brazilFoulCommited = []
+        let goalOpponent = 0
+        
+        for(let i = 0; i < brazilGames.length; i++){
+            brazilGoalsAllWC += brazilGames[i].detalhes.gols.length
+            brazilFoulsAllWC += brazilGames[i].detalhes.faltas.length
+            brazilCardsAllWC += brazilGames[i].detalhes.cartoes.length            
+
+            let result = brazilGames[i].placar
+            goalOpponent = parseInt(result.substring(2, 4))
+            brazilOpponentGoalsAllWC += goalOpponent
+            
+            brazilGoalByPlayer = brazilGames[i].detalhes.gols
+            brazilFoulsByPlayer = brazilGames[i].detalhes.faltas
+            for(let j = 0; j < brazilGoalByPlayer.length; j++){
+                brazilGoalScore += `Goal scorer: ${brazilGoalByPlayer[j].jogador} - minute ${brazilGoalByPlayer[j].minuto}\n`
+            }
+
+            for(let j = 0; j < brazilFoulsByPlayer.length; j++){
+                brazilFoulCommited += `Foul by: ${brazilFoulsByPlayer[j].jogador} - minute ${brazilFoulsByPlayer[j].minuto}\n`
+            }        
+
+        }
+
+        console.log(brazilGoalScore)
+        console.log(brazilFoulCommited)
+        console.log(`Goals by Brazil: ${brazilGoalsAllWC} goals`)
+        console.log(`Goals by Brazil opponents: ${brazilOpponentGoalsAllWC} goals`)
+        console.log(`Fouls by Brazil: ${brazilFoulsAllWC} fouls`)
+        console.log(`Cards by Brazil: ${brazilCardsAllWC} cards`)        
+
+        const mediaGoalsByBrazil = brazilGoalsAllWC/brazilGames.length
+        const mediaGoalsByOpponent = brazilOpponentGoalsAllWC/brazilGames.length
+
+        console.log(`Average goals by Brazil: ${mediaGoalsByBrazil.toFixed(2)}, Average goals by opponents: ${mediaGoalsByOpponent}`)
+
     })
 })
