@@ -7,6 +7,7 @@ API tests from [JSON API for QA Validation Training](https://api-desafio-qa.onre
     - /login
     - /json_1
     - /json_5
+    - /json_9
 
 # How to execute?
 - Install [Node.js](https://nodejs.org/en)
