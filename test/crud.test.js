@@ -24,6 +24,16 @@ describe('test crud', () => {
         empresa: randomCompany
     }
 
+    const payloadPut = {
+        nome: faker.person.firstName(),
+        email: faker.internet.email(),
+        idade: 21,
+        telefone: faker.phone.number(),
+        endereco: faker.location.streetAddress(),
+        profissao: faker.person.jobTitle(),
+        empresa: faker.company.name()
+    }
+
 
     it('get crud', async() => {
         const response =
@@ -44,7 +54,7 @@ describe('test crud', () => {
 
     });
 
-    it.only('post crud', async() => {
+    it('post crud', async() => {
         const response =
             await request(route)
                 .post('/crud')
@@ -62,7 +72,7 @@ describe('test crud', () => {
         expect(response.body.dataCadastro).toMatch(new RegExp(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/))
     });
 
-    it.only('get register test above', async() => {
+    it('get register test above', async() => {
         const response =
             await request(route)
                 .get(`/crud/${id}`)
@@ -73,5 +83,39 @@ describe('test crud', () => {
         expect(response.body.email).toMatch(new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/))
         expect(response.body.dataCadastro).toMatch(new RegExp(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/))
     });
+
+    it('put register test', async() => {
+        const response = 
+            await request(route)
+                .put(`/crud/${id}`)
+                .send(payloadPut)
+        
+        expect(response.status).toBe(200)
+    })
     
+    it('delete register test', async() => {
+        const response = 
+            await request(route)
+                .delete(`/crud/${id}`)
+        
+        expect(response.status).toBe(200)
+    })
+
+    it.only('put register test payload failed', async() => {
+        const response = 
+            await request(route)
+                .put(`/crud/${id}`)
+                .send("x")
+        
+        expect(response.status).toBe(400)
+    })
+
+    it.only('put register test user not found', async() => {
+        const response = 
+            await request(route)
+                .put('/crud/100')
+                .send(payload)
+        
+        expect(response.status).toBe(404)
+    })
 });
