@@ -40,7 +40,7 @@ describe('test suit login', () => {
 
 describe('Test suit /json_1', () => {
 
-    it('product validations', async() => {
+    it.only('product validations', async() => {
         let response =
             await request(route)
                 .get('/json_1');        
@@ -49,10 +49,10 @@ describe('Test suit /json_1', () => {
         let foundIds = []
         let listId = response.body.produtos
 
-        for (let i = 0; i < listId.length; i++) {
-            const id = listId[i].id;
-            const disponibility = listId[i].disponivel
-            const price = listId[i].preco
+        listId.forEach(item => {
+            const id = item.id;
+            const disponibility = item.disponivel
+            const price = item.preco
             
             
             if (id === "" || id === null || id === undefined) {
@@ -65,7 +65,7 @@ describe('Test suit /json_1', () => {
             expect(typeof disponibility).toBe('boolean')
             expect(price).toBeGreaterThan(0)
             foundIds.push(id);
-        }
+        })
         
         expect(hasDuplicatedOrVoid).toBe(false)        
     })
@@ -351,7 +351,7 @@ describe('Make sure that each id of our projects, teams and tasks is unique with
 })
 
 describe('Test suit /json_9', () => {
-    it('Total goals/fouls/cards by Brazil during entire World Cup', async() => {
+    it.only('Total goals/fouls/cards by Brazil during entire World Cup', async() => {
         const response = 
             await request(route)
                 .get('/json_9')
@@ -360,19 +360,19 @@ describe('Test suit /json_9', () => {
         let brazilGoalsAllWC = 0
         let brazilFoulsAllWC = 0
         let brazilCardsAllWC = 0
-        
-        for(let i = 0; i < brazilGames.length; i++){
-            brazilGoalsAllWC += brazilGames[i].detalhes.gols.length
-            brazilFoulsAllWC += brazilGames[i].detalhes.faltas.length
-            brazilCardsAllWC += brazilGames[i].detalhes.cartoes.length
-        }
+
+        brazilGames.forEach(game => {
+            brazilGoalsAllWC += game.detalhes.gols.length
+            brazilFoulsAllWC += game.detalhes.faltas.length
+            brazilCardsAllWC += game.detalhes.cartoes.length
+        })
 
         console.log(`Goals by Brazil: ${brazilGoalsAllWC} goals`)
         console.log(`Fouls by Brazil: ${brazilFoulsAllWC} fouls`)
         console.log(`Cards by Brazil: ${brazilCardsAllWC} cards`)
     })
 
-    it.only('detail report World Cup Brazil', async() => {
+    it('detail report World Cup Brazil', async() => {
         /*
             - Total de gols marcados pelo Brasil e pelos adversários.
             - Nomes dos jogadores que marcaram gols para o Brasil e para os adversários, juntamente com os minutos em que os gols foram marcados. 
