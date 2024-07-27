@@ -110,7 +110,7 @@ describe('test crud', () => {
         expect(response.status).toBe(400)
     })
 
-    it.only('put register test user not found', async() => {
+    it('put register test user not found', async() => {
         const response = 
             await request(route)
                 .put('/crud/100')
