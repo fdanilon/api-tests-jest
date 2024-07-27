@@ -10,6 +10,9 @@ API tests from [JSON API for QA Validation Training](https://api-desafio-qa.onre
     - /json_9
 - Crud module
     - /crud (get, post, put, delete)
+- Shop module
+    - /post
+    - /get
 
 # How to execute?
 - Install [Node.js](https://nodejs.org/en)
