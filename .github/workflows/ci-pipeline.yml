@@ -9,7 +9,6 @@ on:
       - master
 
 env:
-  GIT_REPO: https://github.com/fdanilon/api-tests-jest
   DISCORD_WEBHOOK_URL: https://discord.com/api/webhooks/1278820756431835267/8mVE4eqxipyVl2gknjQE98NwYldfl7Brs8q-VlwmbcVEyUn0kR6W8dpACGHCdhhRcDLT
 
 jobs:
