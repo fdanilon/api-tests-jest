@@ -16,5 +16,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Cloning the repository
-      uses: a
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+
+    - name: Run tests
+      run: ./nom run test
+
+    - name: Send Discord notification
+      if: always()
+      run: |
+        if [[ "${{ job.status }}" == "success" ]]; then
+          discordMessage="All tests passed!"
+        else
+          discordMessage="Unfortunately, some tests failed."
+        fi
+
+        curl -H "Content-Type: application/json" -d "{\"content\": \"**Build #${{ github.run_number }}** - $discordMessage. See the results at ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" ${{ env.DISCORD_WEBHOOK_URL }}
