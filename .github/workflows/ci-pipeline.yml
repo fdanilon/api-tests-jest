@@ -9,7 +9,6 @@ on:
       - master
 
 env:
-  GIT_REPO: https://github.com/fdanilon/api-tests-jest
   DISCORD_WEBHOOK_URL: https://discord.com/api/webhooks/1278820756431835267/8mVE4eqxipyVl2gknjQE98NwYldfl7Brs8q-VlwmbcVEyUn0kR6W8dpACGHCdhhRcDLT
 
 jobs:
@@ -17,5 +16,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Cloning the repository
-      uses: a
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+
+    - name: Run tests
+      run: ./npm run test
+
+    - name: Send Discord notification
+      if: always()
+      run: |
+        if [[ "${{ job.status }}" == "success" ]]; then
+          discordMessage="All tests passed!"
+        else
+          discordMessage="Unfortunately, some tests failed."
+        fi
+
+        curl -H "Content-Type: application/json" -d "{\"content\": \"**Build #${{ github.run_number }}** - $discordMessage. See the results at ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" ${{ env.DISCORD_WEBHOOK_URL }}
