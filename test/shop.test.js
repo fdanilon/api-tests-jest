@@ -62,19 +62,19 @@ describe('test post shop suit', () => {
     });
 });
 
-// describe('get products', () => {
-//     it('get all produtos', async() => {
-//         const response = 
-//             await request(route)
-//                 .get('/produtos')
+describe('get products', () => {
+    it('get all produtos', async() => {
+        const response = 
+            await request(route)
+                .get('/produtos')
 
-//                 console.log(response.body)
+                console.log(response.body)
 
-//         const body = response.body.produtos
-//         expect(response.status).toBe(200)
+        const body = response.body.produtos
+        expect(response.status).toBe(200)
 
-//         body.forEach(data => {
-//             expect(data).toHaveProperty('id')
-//         });
-//     });
-// });
+        body.forEach(data => {
+            expect(data).toHaveProperty('id')
+        });
+    });
+});
